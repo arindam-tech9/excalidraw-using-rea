@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="A dependency-free hand-drawn sketch canvas inspired by Excalidraw's rendering model."
+    />
+    <title>Papertrail — hand-drawn sketching</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Papertrail home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 36 36"><path d="M7 26 23 5l6 5L13 31H6Z"/><path d="m21 8 6 5"/></svg>
+          </span>
+          <span>Papertrail</span>
+        </a>
+        <div class="top-actions">
+          <button class="text-button" id="undo" type="button" title="Undo (⌘Z)" disabled>Undo</button>
+          <button class="text-button" id="redo" type="button" title="Redo (⇧⌘Z)" disabled>Redo</button>
+          <button class="export-button" id="export" type="button">Export PNG</button>
+        </div>
+      </header>
+
+      <section class="workspace" aria-label="Sketch editor">
+        <aside class="tool-rail" aria-label="Drawing tools">
+          <button class="tool active" type="button" data-tool="pen" aria-label="Pen" title="Pen (P)">
+            <svg viewBox="0 0 24 24"><path d="M5 19c3-1 5-3 6-6l6-8 2 2-8 6c-3 1-5 3-6 6Z"/><path d="m15 7 2 2"/></svg>
+          </button>
+          <button class="tool" type="button" data-tool="rectangle" aria-label="Rectangle" title="Rectangle (R)">
+            <svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="1"/></svg>
+          </button>
+          <button class="tool" type="button" data-tool="ellipse" aria-label="Ellipse" title="Ellipse (O)">
+            <svg viewBox="0 0 24 24"><ellipse cx="12" cy="12" rx="8" ry="7"/></svg>
+          </button>
+          <button class="tool" type="button" data-tool="arrow" aria-label="Arrow" title="Arrow (A)">
+            <svg viewBox="0 0 24 24"><path d="M4 12h15M14 7l5 5-5 5"/></svg>
+          </button>
+          <span class="rail-divider" aria-hidden="true"></span>
+          <button class="tool" type="button" data-tool="eraser" aria-label="Eraser" title="Eraser (E)">
+            <svg viewBox="0 0 24 24"><path d="m8 18-4-4 8-9 7 6-7 7H8Z"/><path d="m9 18 5-4"/></svg>
+          </button>
+        </aside>
+
+        <div class="canvas-wrap" id="canvas-wrap">
+          <canvas id="canvas" aria-label="Drawing canvas"></canvas>
+          <div class="empty-state" id="empty-state" aria-hidden="true">
+            <div class="gesture-line"></div>
+            <p>Draw something wonderfully imperfect.</p>
+            <span>Try the pen, or drag out a shape.</span>
+          </div>
+          <div class="status-chip" id="status-chip">Pen · pressure simulated</div>
+        </div>
+
+        <aside class="inspector" aria-label="Stroke controls">
+          <div class="inspector-heading">
+            <span>Stroke</span>
+            <span class="live-dot">live</span>
+          </div>
+
+          <label class="control-label" for="color">Ink color</label>
+          <div class="swatches" role="group" aria-label="Ink color">
+            <button class="swatch active" type="button" data-color="#1d1d1f" style="--swatch:#1d1d1f" aria-label="Graphite"></button>
+            <button class="swatch" type="button" data-color="#5b4bdb" style="--swatch:#5b4bdb" aria-label="Indigo"></button>
+            <button class="swatch" type="button" data-color="#d9485f" style="--swatch:#d9485f" aria-label="Coral"></button>
+            <button class="swatch" type="button" data-color="#138a72" style="--swatch:#138a72" aria-label="Green"></button>
+            <input id="color" type="color" value="#1d1d1f" aria-label="Custom ink color" />
+          </div>
+
+          <div class="range-header">
+            <label for="width">Width</label>
+            <output id="width-output" for="width">4 px</output>
+          </div>
+          <input id="width" class="range" type="range" min="1" max="14" step="1" value="4" />
+
+          <div class="range-header">
+            <label for="roughness">Roughness</label>
+            <output id="roughness-output" for="roughness">1.2</output>
+          </div>
+          <input id="roughness" class="range" type="range" min="0" max="2.5" step="0.1" value="1.2" />
+
+          <label class="toggle-row" for="pressure">
+            <span>
+              <strong>Dynamic pressure</strong>
+              <small>Use pen pressure or pointer speed</small>
+            </span>
+            <input id="pressure" type="checkbox" checked />
+            <span class="toggle" aria-hidden="true"></span>
+          </label>
+
+          <div class="explainer">
+            <span class="explainer-icon">↗</span>
+            <div>
+              <strong>What makes it feel drawn?</strong>
+              <p>Velocity shapes the pen width. Seeded offsets add stable imperfection to geometric tools.</p>
+            </div>
+          </div>
+
+          <button class="clear-button" id="clear" type="button">Clear canvas</button>
+        </aside>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>
